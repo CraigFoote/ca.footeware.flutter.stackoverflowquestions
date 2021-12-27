@@ -46,17 +46,17 @@ class HomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<HomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> {
   bool _isDarkTheme = false;
   final _searchController = TextEditingController();
   num _pageNumber = 1;
   String _searchString = '';
   bool _haveResults = false;
   late Map<String, dynamic> results;
-  final ScrollController _homeController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -190,13 +190,14 @@ class _MyHomePageState extends State<HomePage> {
             '&pagesize=10&order=desc&sort=activity&tagged=' +
             searchString);
     results = json.decode(await http.read(url));
-    _haveResults = true;
-    _homeController.animateTo(
-      0.0,
-      curve: Curves.easeOut,
-      duration: const Duration(milliseconds: 300),
-    );
-    setState(() {});
+    setState(() {
+      _haveResults = true;
+      _scrollController.animateTo(
+        0.0,
+        curve: Curves.easeOut,
+        duration: const Duration(milliseconds: 500),
+      );
+    });
   }
 
   _displayResults() {
@@ -206,7 +207,7 @@ class _MyHomePageState extends State<HomePage> {
       cards.add(_createCard(items[i]));
     }
     return ListView.builder(
-      controller: _homeController,
+      controller: _scrollController,
       itemCount: cards.length + 1,
       itemBuilder: (context, index) {
         if (index == cards.length) {
@@ -301,17 +302,20 @@ class _MyHomePageState extends State<HomePage> {
                   ),
                   Text(
                     'View Count: ' + item['view_count'].toString(),
-                  ),const SizedBox(
+                  ),
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
                     'Answer Count: ' + item['answer_count'].toString(),
-                  ),const SizedBox(
+                  ),
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
                     'Score: ' + item['score'].toString(),
-                  ),const SizedBox(
+                  ),
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
@@ -319,7 +323,8 @@ class _MyHomePageState extends State<HomePage> {
                         DateTime.fromMillisecondsSinceEpoch(
                                 (item['last_activity_date']) * 1000)
                             .toString(),
-                  ),const SizedBox(
+                  ),
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
@@ -327,7 +332,8 @@ class _MyHomePageState extends State<HomePage> {
                         DateTime.fromMillisecondsSinceEpoch(
                                 (item['creation_date']) * 1000)
                             .toString(),
-                  ),const SizedBox(
+                  ),
+                  const SizedBox(
                     height: 10,
                   ),
                   InkWell(
