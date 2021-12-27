@@ -144,10 +144,10 @@ class HomePageState extends State<HomePage> {
     Uri url = Uri(
         scheme: 'https',
         host: 'api.stackexchange.com',
-        path: '2.3/questions',
+        path: '2.3/search',
         query: 'site=stackoverflow&page=' +
             pageNumber.toString() +
-            '&pagesize=10&order=desc&sort=activity&tagged=' +
+            '&pagesize=10&order=desc&sort=activity&intitle=' +
             searchString);
     results = json.decode(await http.read(url));
     setState(() {
