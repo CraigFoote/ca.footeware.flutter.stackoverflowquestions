@@ -33,7 +33,10 @@ class StackOverflowQuestionsState extends State<StackOverflowQuestionsApp> {
       title: title,
       theme: CustomTheme.currentTheme,
       debugShowCheckedModeBanner: false,
-      home: HomePage(title: title, themeCallback: themeCallback),
+      home: HomePage(
+        title: title,
+        themeCallback: themeCallback,
+      ),
     );
   }
 }
