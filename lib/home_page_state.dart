@@ -57,6 +57,7 @@ class HomePageState extends State<HomePage> {
           ),
           child: Center(
             child: TextField(
+              autofocus: true,
               controller: _searchController,
               decoration: InputDecoration(
                 filled: true,
