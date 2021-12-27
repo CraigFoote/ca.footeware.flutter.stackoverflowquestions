@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'custom_theme.dart';
@@ -65,7 +65,7 @@ class HomePageState extends State<HomePage> {
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.clear),
                   onPressed: () => setState(
-                        () => _searchController.clear(),
+                    () => _searchController.clear(),
                   ),
                 ),
                 hintText: 'Search...',
@@ -90,7 +90,7 @@ class HomePageState extends State<HomePage> {
                     onChanged: (value) async {
                       final prefs = await SharedPreferences.getInstance();
                       setState(
-                            () {
+                        () {
                           _isDarkTheme = value;
                           prefs.setBool('isDarkTheme', _isDarkTheme);
                           widget.themeCallback(value
@@ -281,7 +281,7 @@ class HomePageState extends State<HomePage> {
                   Text(
                     'Last Activity: ' +
                         DateTime.fromMillisecondsSinceEpoch(
-                            (item['last_activity_date']) * 1000)
+                                (item['last_activity_date']) * 1000)
                             .toString(),
                   ),
                   const SizedBox(
@@ -290,7 +290,7 @@ class HomePageState extends State<HomePage> {
                   Text(
                     'Created: ' +
                         DateTime.fromMillisecondsSinceEpoch(
-                            (item['creation_date']) * 1000)
+                                (item['creation_date']) * 1000)
                             .toString(),
                   ),
                   const SizedBox(

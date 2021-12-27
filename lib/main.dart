@@ -1,13 +1,8 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'custom_theme.dart';
 import 'home_page_state.dart';
-import 'info_page.dart';
 
 void main() {
   runApp(const StackOverflowQuestionsApp());
@@ -52,4 +47,3 @@ class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => HomePageState();
 }
-
