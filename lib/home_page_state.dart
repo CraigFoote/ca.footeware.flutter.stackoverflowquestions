@@ -24,6 +24,13 @@ class HomePageState extends State<HomePage> {
     _loadPrefs();
   }
 
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   void _loadPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -52,16 +59,19 @@ class HomePageState extends State<HomePage> {
           width: double.infinity,
           height: 40,
           decoration: BoxDecoration(
-            color: Colors.brown,
-            borderRadius: BorderRadius.circular(10.0),
+            color: Colors.black38,
+            borderRadius: BorderRadius.circular(30.0),
           ),
           child: Center(
             child: TextField(
               autofocus: true,
               controller: _searchController,
+              style: const TextStyle(
+                color: Colors.white54,
+              ),
               decoration: InputDecoration(
                 filled: true,
-                fillColor: _isDarkTheme ? Colors.black38 : Colors.white54,
+                fillColor: Colors.transparent,
                 prefixIcon: const Icon(Icons.search),
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.clear),
@@ -153,11 +163,13 @@ class HomePageState extends State<HomePage> {
     results = json.decode(await http.read(url));
     setState(() {
       _haveResults = true;
-      _scrollController.animateTo(
-        0.0,
-        curve: Curves.easeOut,
-        duration: const Duration(milliseconds: 500),
-      );
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          0.0,
+          curve: Curves.easeOut,
+          duration: const Duration(milliseconds: 500),
+        );
+      }
     });
   }
 
@@ -185,49 +197,40 @@ class HomePageState extends State<HomePage> {
       children: [
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () =>
-                      _doSearch(context, _pageNumber--, _searchString),
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.arrow_left,
-                      ),
-                      Text(
-                        'Previous',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                        ),
-                      )
-                    ],
+          child: ElevatedButton(
+            onPressed: () => _doSearch(context, _pageNumber--, _searchString),
+            child: Row(
+              children: const [
+                Icon(
+                  Icons.arrow_left,
+                ),
+                Text(
+                  'Previous',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+            onPressed: () => _doSearch(context, _pageNumber++, _searchString),
+            child: Row(
+              children: const [
+                Text(
+                  '  Next   ',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () =>
-                      _doSearch(context, _pageNumber++, _searchString),
-                  child: Row(
-                    children: const [
-                      Text(
-                        'Next',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                      Icon(
-                        Icons.arrow_right,
-                      ),
-                    ],
-                  ),
+                Icon(
+                  Icons.arrow_right,
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ],
