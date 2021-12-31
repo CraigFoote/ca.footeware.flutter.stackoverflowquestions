@@ -89,7 +89,12 @@ Widget getContent(Map<String, dynamic> item) {
           Column(
             children: [
               Image(
-                image: NetworkImage(item['owner']['profile_image']),
+                image: NetworkImage(
+                  item['owner']['profile_image'],
+                ),
+                errorBuilder: (context, error, stackTrace) {
+                  return const Text('Image not found.');
+                },
               ),
               SelectableText(item['owner']['display_name']),
             ],
