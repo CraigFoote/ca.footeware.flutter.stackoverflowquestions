@@ -1,7 +1,8 @@
-import 'dart:convert';
+import 'dart:convert' as convert;
+import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stackoverflow_questions/result_card.dart';
 
@@ -23,6 +24,7 @@ class HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _loadPrefs();
+    _searchController.addListener(() => _searchString = _searchController.text);
   }
 
   @override
@@ -53,7 +55,6 @@ class HomePageState extends State<HomePage> {
                 for (var i = 0; i < _results.length; i++) {
                   cards.add(ResultCard(_results[i]));
                 }
-                _haveResults = true;
                 return ListView.builder(
                   controller: _scrollController,
                   itemCount: cards.length + 1,
@@ -81,18 +82,28 @@ class HomePageState extends State<HomePage> {
               _pageNumber.toString() +
               '&pagesize=10&order=desc&sort=activity&intitle=' +
               _searchString);
-      var jsonResult = await http.read(url);
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          0.0,
-          curve: Curves.easeOut,
-          duration: const Duration(milliseconds: 500),
-        );
-      }
-      var decoded = json.decode(jsonResult);
-      _hasMore = decoded['has_more'];
-      _results = decoded['items'];
-      setState(() => _haveResults = true);
+      final ioc = HttpClient();
+      ioc.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+      final http = IOClient(ioc);
+      await http.get(url).then((response) {
+        if (response.statusCode == 200) {
+          var decoded =
+              convert.jsonDecode(response.body) as Map<String, dynamic>;
+          if (_scrollController.hasClients) {
+            _scrollController.animateTo(
+              0.0,
+              curve: Curves.easeOut,
+              duration: const Duration(milliseconds: 500),
+            );
+          }
+          _hasMore = decoded['has_more'];
+          _results = decoded['items'];
+          setState(() {
+            _haveResults = true;
+          });
+        }
+      });
     }
   }
 
@@ -121,10 +132,9 @@ class HomePageState extends State<HomePage> {
             color: Colors.white54,
           ),
           decoration: InputDecoration(
-            // constraints: const BoxConstraints.expand(width: double.infinity),
             filled: true,
             fillColor: Colors.transparent,
-            // prefixIcon: const Icon(Icons.search),
+            prefixIcon: const Icon(Icons.search),
             suffixIcon: IconButton(
               icon: const Icon(Icons.clear),
               onPressed: () => setState(
@@ -141,16 +151,6 @@ class HomePageState extends State<HomePage> {
           },
         ),
       ),
-      actions: [
-        IconButton(
-          onPressed: () {
-            _pageNumber = 1;
-            _searchString = _searchController.text;
-            _getSearchResults();
-          },
-          icon: const Icon(Icons.search),
-        ),
-      ],
     );
   }
 
