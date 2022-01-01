@@ -13,7 +13,7 @@ class ResultItem {
 
   String get isAnswered {
     try {
-      return item['isAnswered'].toString();
+      return item['is_answered'].toString();
     } catch (e) {
       return 'Answered not found.';
     }
@@ -46,7 +46,7 @@ class ResultItem {
   String get lastActivityDate {
     try {
       return DateTime.fromMillisecondsSinceEpoch(
-          (item['last_activity_date']) * 1000)
+              (item['last_activity_date']) * 1000)
           .toString();
     } catch (e) {
       return 'Last activity date not found';

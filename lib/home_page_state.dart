@@ -81,13 +81,14 @@ class HomePageState extends State<HomePage> {
               hintText: 'Search...',
               border: InputBorder.none,
             ),
-            onSubmitted: (value) => _doSearch(context, _pageNumber, value),
+            onSubmitted: (value) =>
+                _getSearchResults(context, _pageNumber, value),
           ),
         ),
         actions: [
           IconButton(
             onPressed: () =>
-                _doSearch(context, _pageNumber, _searchController.text),
+                _getSearchResults(context, _pageNumber, _searchController.text),
             icon: const Icon(Icons.search),
           ),
         ],
@@ -150,31 +151,30 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  _doSearch(BuildContext context, num pageNumber, String searchString) {
-    _searchString = searchString;
-    _getSearchResults(context, _pageNumber, _searchString);
-  }
-
   _getSearchResults(
       BuildContext context, num pageNumber, String searchString) async {
-    Uri url = Uri(
-        scheme: 'https',
-        host: 'api.stackexchange.com',
-        path: '2.3/search',
-        query: 'site=stackoverflow&page=' +
-            pageNumber.toString() +
-            '&pagesize=10&order=desc&sort=activity&intitle=' +
-            searchString);
-    results = json.decode(await http.read(url));
-    setState(() {
-      if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          0.0,
-          curve: Curves.easeOut,
-          duration: const Duration(milliseconds: 500),
-        );
-      }
-    });
+    _searchString = searchString;
+    if (_searchString.isNotEmpty) {
+      Uri url = Uri(
+          scheme: 'https',
+          host: 'api.stackexchange.com',
+          path: '2.3/search',
+          query: 'site=stackoverflow&page=' +
+              pageNumber.toString() +
+              '&pagesize=10&order=desc&sort=activity&intitle=' +
+              searchString);
+      var jsonResult = await http.read(url);
+      setState(() {
+        results = json.decode(jsonResult);
+        if (_scrollController.hasClients) {
+          _scrollController.animateTo(
+            0.0,
+            curve: Curves.easeOut,
+            duration: const Duration(milliseconds: 500),
+          );
+        }
+      });
+    }
   }
 
   _displayResults() {
@@ -205,7 +205,8 @@ class HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
-              onPressed: () => _doSearch(context, _pageNumber--, _searchString),
+              onPressed: () =>
+                  _getSearchResults(context, _pageNumber--, _searchString),
               child: Row(
                 children: const [
                   Icon(
@@ -224,7 +225,8 @@ class HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
-              onPressed: () => _doSearch(context, _pageNumber++, _searchString),
+              onPressed: () =>
+                  _getSearchResults(context, _pageNumber++, _searchString),
               child: Row(
                 children: const [
                   Text(
