@@ -71,6 +71,12 @@ Widget getContent(Map<String, dynamic> parsedJson) {
                 const SizedBox(
                   height: 10,
                 ),
+                Text(
+                  'Tags: ' + item.tags,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
                 InkWell(
                   child: const Text(
                     'StackOverflow Page',

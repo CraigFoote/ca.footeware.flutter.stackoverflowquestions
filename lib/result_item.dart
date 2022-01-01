@@ -85,4 +85,12 @@ class ResultItem {
       return 'Name not found.';
     }
   }
+
+  String get tags {
+    try {
+      return item['tags'].join(', ');
+    } catch (e) {
+      return 'Tags not found.';
+    }
+  }
 }
