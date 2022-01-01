@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:stackoverflow_questions/result_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ResultCard extends Card {
   ResultCard(Map<String, dynamic> parsedJson, {Key? key})
       : super(
             key: key,
+            elevation: 10.0,
             margin: const EdgeInsets.all(15.0),
             child: getContent(parsedJson));
 }
 
-Widget getContent(Map<String, dynamic> item) {
+Widget getContent(Map<String, dynamic> parsedJson) {
+  ResultItem item = ResultItem(parsedJson);
   return Card(
     margin: const EdgeInsets.all(15.0),
     child: Padding(
@@ -23,51 +26,47 @@ Widget getContent(Map<String, dynamic> item) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SelectableText(
-                  item['title'],
-                  style: const TextStyle(fontSize: 20.0),
+                  item.title,
+                  style: const TextStyle(
+                    fontSize: 20.0,
+                  ),
                 ),
                 const Divider(
                   endIndent: 50,
                   color: Colors.black54,
                 ),
                 Text(
-                  'Answered: ' + item['is_answered'].toString(),
+                  'Answered: ' + item.isAnswered,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  'View Count: ' + item['view_count'].toString(),
+                  'View Count: ' + item.viewCount,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  'Answer Count: ' + item['answer_count'].toString(),
+                  'Answer Count: ' + item.answerCount,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  'Score: ' + item['score'].toString(),
+                  'Score: ' + item.score,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  'Last Activity: ' +
-                      DateTime.fromMillisecondsSinceEpoch(
-                              (item['last_activity_date']) * 1000)
-                          .toString(),
+                  'Last Activity: ' + item.lastActivityDate,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  'Created: ' +
-                      DateTime.fromMillisecondsSinceEpoch(
-                              (item['creation_date']) * 1000)
-                          .toString(),
+                  'Created: ' + item.creationDate,
                 ),
                 const SizedBox(
                   height: 10,
@@ -80,7 +79,7 @@ Widget getContent(Map<String, dynamic> item) {
                     ),
                   ),
                   onTap: () => launchInBrowser(
-                    item['link'],
+                    item.link,
                   ),
                 ),
               ],
@@ -90,13 +89,13 @@ Widget getContent(Map<String, dynamic> item) {
             children: [
               Image(
                 image: NetworkImage(
-                  item['owner']['profile_image'],
+                  item.profileImage,
                 ),
                 errorBuilder: (context, error, stackTrace) {
-                  return const Text('Image not found.');
+                  return const Text('Profile image not found.');
                 },
               ),
-              SelectableText(item['owner']['display_name']),
+              SelectableText(item.displayName),
             ],
           ),
         ],

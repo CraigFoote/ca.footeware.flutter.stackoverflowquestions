@@ -14,8 +14,7 @@ class HomePageState extends State<HomePage> {
   final _searchController = TextEditingController();
   num _pageNumber = 1;
   String _searchString = '';
-  bool _haveResults = false;
-  late Map<String, dynamic> results;
+  Map<String, dynamic> results = {};
   final ScrollController _scrollController = ScrollController();
 
   @override
@@ -56,38 +55,44 @@ class HomePageState extends State<HomePage> {
           },
         ),
         title: Container(
-          width: double.infinity,
-          height: 40,
+          // width: double.infinity,
+          // height: 40,
           decoration: BoxDecoration(
             color: Colors.black38,
             borderRadius: BorderRadius.circular(30.0),
           ),
-          child: Center(
-            child: TextField(
-              autofocus: true,
-              controller: _searchController,
-              style: const TextStyle(
-                color: Colors.white54,
-              ),
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.transparent,
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: IconButton(
-                  icon: const Icon(Icons.clear),
-                  onPressed: () => setState(
-                    () => _searchController.clear(),
-                  ),
-                ),
-                hintText: 'Search...',
-                border: InputBorder.none,
-              ),
-              onSubmitted: (value) => _doSearch(context, _pageNumber, value),
+          child: TextField(
+            autofocus: true,
+            controller: _searchController,
+            style: const TextStyle(
+              color: Colors.white54,
             ),
+            decoration: InputDecoration(
+              // constraints: const BoxConstraints.expand(width: double.infinity),
+              filled: true,
+              fillColor: Colors.transparent,
+              // prefixIcon: const Icon(Icons.search),
+              suffixIcon: IconButton(
+                icon: const Icon(Icons.clear),
+                onPressed: () => setState(
+                  () => _searchController.clear(),
+                ),
+              ),
+              hintText: 'Search...',
+              border: InputBorder.none,
+            ),
+            onSubmitted: (value) => _doSearch(context, _pageNumber, value),
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () =>
+                _doSearch(context, _pageNumber, _searchController.text),
+            icon: const Icon(Icons.search),
+          ),
+        ],
       ),
-      body: _haveResults ? _displayResults() : Container(),
+      body: _displayResults(),
       drawer: Drawer(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -162,7 +167,6 @@ class HomePageState extends State<HomePage> {
             searchString);
     results = json.decode(await http.read(url));
     setState(() {
-      _haveResults = true;
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
           0.0,
@@ -174,66 +178,70 @@ class HomePageState extends State<HomePage> {
   }
 
   _displayResults() {
-    var items = results['items'];
-    List<Card> cards = [];
-    for (var i = 0; i < items.length; i++) {
-      cards.add(ResultCard(items[i]));
+    if (results.isNotEmpty) {
+      var items = results['items'];
+      List<Card> cards = [];
+      for (var i = 0; i < items.length; i++) {
+        cards.add(ResultCard(items[i]));
+      }
+      return ListView.builder(
+        controller: _scrollController,
+        itemCount: cards.length + 1,
+        itemBuilder: (context, index) {
+          if (index == cards.length) {
+            return _getNavButtons(context);
+          }
+          return cards[index];
+        },
+      );
     }
-    return ListView.builder(
-      controller: _scrollController,
-      itemCount: cards.length + 1,
-      itemBuilder: (context, index) {
-        if (index == cards.length) {
-          return _getNavButtons(context);
-        }
-        return cards[index];
-      },
-    );
   }
 
-  Row _getNavButtons(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(
-            onPressed: () => _doSearch(context, _pageNumber--, _searchString),
-            child: Row(
-              children: const [
-                Icon(
-                  Icons.arrow_left,
-                ),
-                Text(
-                  'Previous',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w900,
+  Widget _getNavButtons(BuildContext context) {
+    return IntrinsicWidth(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () => _doSearch(context, _pageNumber--, _searchString),
+              child: Row(
+                children: const [
+                  Icon(
+                    Icons.arrow_left,
                   ),
-                )
-              ],
+                  Text(
+                    'Previous',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w900,
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(
-            onPressed: () => _doSearch(context, _pageNumber++, _searchString),
-            child: Row(
-              children: const [
-                Text(
-                  '  Next   ',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w900,
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () => _doSearch(context, _pageNumber++, _searchString),
+              child: Row(
+                children: const [
+                  Text(
+                    'Next',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w900,
+                    ),
                   ),
-                ),
-                Icon(
-                  Icons.arrow_right,
-                ),
-              ],
+                  Icon(
+                    Icons.arrow_right,
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
