@@ -8,7 +8,6 @@ import 'package:stackoverflow_questions/result_card.dart';
 
 import 'custom_theme.dart';
 import 'info_page.dart';
-import 'main.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title, required this.themeCallback})
