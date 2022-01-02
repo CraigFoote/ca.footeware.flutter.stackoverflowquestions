@@ -3,15 +3,15 @@ import 'package:stackoverflow_questions/result_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ResultCard extends Card {
-  ResultCard(Map<String, dynamic> parsedJson, {Key? key})
+  ResultCard(Map<String, dynamic> parsedJson, double thumbnailWidth, {Key? key})
       : super(
             key: key,
             elevation: 10.0,
             margin: const EdgeInsets.all(15.0),
-            child: getContent(parsedJson));
+            child: getContent(parsedJson, thumbnailWidth));
 }
 
-Widget getContent(Map<String, dynamic> parsedJson) {
+Widget getContent(Map<String, dynamic> parsedJson, double thumbnailWidth) {
   ResultItem item = ResultItem(parsedJson);
   return Card(
     margin: const EdgeInsets.all(15.0),
@@ -97,6 +97,7 @@ Widget getContent(Map<String, dynamic> parsedJson) {
                 image: NetworkImage(
                   item.profileImage,
                 ),
+                width: thumbnailWidth,
                 errorBuilder: (context, error, stackTrace) {
                   return const Text('Profile image not found.');
                 },

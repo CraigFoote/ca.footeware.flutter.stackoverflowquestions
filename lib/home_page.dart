@@ -30,6 +30,10 @@ class HomePageState extends State<HomePage> {
   late bool _hasMore;
   late dynamic _results;
 
+  double get thumbnailWidth{
+    return MediaQuery.of(context).size.width * .20;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -63,7 +67,7 @@ class HomePageState extends State<HomePage> {
               builder: (context) {
                 List<Card> cards = [];
                 for (var i = 0; i < _results.length; i++) {
-                  cards.add(ResultCard(_results[i]));
+                  cards.add(ResultCard(_results[i], thumbnailWidth));
                 }
                 return ListView.builder(
                   controller: _scrollController,
