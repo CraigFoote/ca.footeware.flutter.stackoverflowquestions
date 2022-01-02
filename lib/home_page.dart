@@ -10,6 +10,17 @@ import 'custom_theme.dart';
 import 'info_page.dart';
 import 'main.dart';
 
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key, required this.title, required this.themeCallback})
+      : super(key: key);
+
+  final Function themeCallback;
+  final String title;
+
+  @override
+  State<HomePage> createState() => HomePageState();
+}
+
 class HomePageState extends State<HomePage> {
   bool _isDarkTheme = false;
   final _searchController = TextEditingController();

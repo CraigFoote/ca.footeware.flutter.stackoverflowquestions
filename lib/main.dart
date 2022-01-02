@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'custom_theme.dart';
-import 'home_page_state.dart';
+import 'home_page.dart';
 
 void main() {
   runApp(const StackOverflowQuestionsApp());
@@ -34,15 +34,4 @@ class StackOverflowQuestionsState extends State<StackOverflowQuestionsApp> {
       ),
     );
   }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key, required this.title, required this.themeCallback})
-      : super(key: key);
-
-  final Function themeCallback;
-  final String title;
-
-  @override
-  State<HomePage> createState() => HomePageState();
 }
