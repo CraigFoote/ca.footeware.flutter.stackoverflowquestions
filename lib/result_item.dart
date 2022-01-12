@@ -1,11 +1,15 @@
+import 'package:html_unescape/html_unescape.dart';
+
 class ResultItem {
   ResultItem(this.item);
+
+  var unescape = HtmlUnescape();
 
   Map<String, dynamic> item;
 
   String get title {
     try {
-      return item['title'];
+      return unescape.convert(item['title']);
     } catch (e) {
       return 'Title not found.';
     }
