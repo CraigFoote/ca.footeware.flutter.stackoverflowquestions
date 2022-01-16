@@ -15,7 +15,7 @@ class StackOverflowQuestionsApp extends StatefulWidget {
 }
 
 class StackOverflowQuestionsState extends State<StackOverflowQuestionsApp> {
-  final String title = 'StackOverflow Questions';
+  final String title = 'Stack Overflow Questions';
   ThemeData currentTheme = CustomTheme.lightTheme;
 
   void themeCallback(value) {
