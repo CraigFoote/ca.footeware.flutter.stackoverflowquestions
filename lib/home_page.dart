@@ -30,7 +30,7 @@ class HomePageState extends State<HomePage> {
   late bool _hasMore;
   late dynamic _results;
 
-  double get thumbnailWidth{
+  double get thumbnailWidth {
     return MediaQuery.of(context).size.width * .20;
   }
 
@@ -64,7 +64,9 @@ class HomePageState extends State<HomePage> {
       body: !_haveResults
           ? Container()
           : Builder(
-              builder: (context) {
+              builder: (
+                _,
+              ) {
                 List<Card> cards = [];
                 for (var i = 0; i < _results.length; i++) {
                   cards.add(ResultCard(_results[i], thumbnailWidth));
@@ -72,7 +74,10 @@ class HomePageState extends State<HomePage> {
                 return ListView.builder(
                   controller: _scrollController,
                   itemCount: cards.length + 1,
-                  itemBuilder: (_, index) {
+                  itemBuilder: (
+                    _,
+                    index,
+                  ) {
                     if (index == cards.length) {
                       return _buildNavButtons();
                     }
@@ -97,8 +102,12 @@ class HomePageState extends State<HomePage> {
               '&pagesize=10&order=desc&sort=activity&intitle=' +
               _searchString);
       final ioc = HttpClient();
-      ioc.badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      ioc.badCertificateCallback = (
+        X509Certificate cert,
+        String host,
+        int port,
+      ) =>
+          true;
       final http = IOClient(ioc);
       await http.get(url).then((response) {
         if (response.statusCode == 200) {
@@ -108,7 +117,9 @@ class HomePageState extends State<HomePage> {
             _scrollController.animateTo(
               0.0,
               curve: Curves.easeOut,
-              duration: const Duration(milliseconds: 500),
+              duration: const Duration(
+                milliseconds: 500,
+              ),
             );
           }
           _hasMore = decoded['has_more'];
@@ -124,7 +135,9 @@ class HomePageState extends State<HomePage> {
   PreferredSizeWidget _buildAppbar() {
     return AppBar(
       leading: Builder(
-        builder: (BuildContext context) {
+        builder: (
+          _,
+        ) {
           return IconButton(
             icon: const Icon(Icons.menu),
             onPressed: () {
@@ -137,7 +150,9 @@ class HomePageState extends State<HomePage> {
       title: Container(
         decoration: BoxDecoration(
           color: Colors.black38,
-          borderRadius: BorderRadius.circular(30.0),
+          borderRadius: BorderRadius.circular(
+            30.0,
+          ),
         ),
         child: TextField(
           autofocus: true,
@@ -171,12 +186,16 @@ class HomePageState extends State<HomePage> {
   Widget _buildDrawer() {
     return Drawer(
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(
+          10.0,
+        ),
         child: ListView(
           children: [
             Row(
               children: [
-                const Text('Dark Theme'),
+                const Text(
+                  'Dark Theme',
+                ),
                 Switch(
                   value: _isDarkTheme,
                   onChanged: (value) async {
@@ -184,7 +203,10 @@ class HomePageState extends State<HomePage> {
                     setState(
                       () {
                         _isDarkTheme = value;
-                        prefs.setBool('isDarkTheme', _isDarkTheme);
+                        prefs.setBool(
+                          'isDarkTheme',
+                          _isDarkTheme,
+                        );
                         widget.themeCallback(value
                             ? CustomTheme.darkTheme
                             : CustomTheme.lightTheme);
@@ -197,10 +219,15 @@ class HomePageState extends State<HomePage> {
             Row(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.all(
+                    10.0,
+                  ),
                   child: GestureDetector(
                     child: Builder(
-                      builder: (context) => const Icon(
+                      builder: (
+                        _,
+                      ) =>
+                          const Icon(
                         Icons.info,
                       ),
                     ),
@@ -231,7 +258,9 @@ class HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(
+              8.0,
+            ),
             child: ElevatedButton(
               onPressed: _pageNumber > 1
                   ? () {
@@ -255,7 +284,9 @@ class HomePageState extends State<HomePage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(
+              8.0,
+            ),
             child: ElevatedButton(
               onPressed: _hasMore
                   ? () {
