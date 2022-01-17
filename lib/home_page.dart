@@ -64,9 +64,7 @@ class HomePageState extends State<HomePage> {
       body: !_haveResults
           ? Container()
           : Builder(
-              builder: (
-                _,
-              ) {
+              builder: (_) {
                 List<Card> cards = [];
                 for (var i = 0; i < _results.length; i++) {
                   cards.add(ResultCard(_results[i], thumbnailWidth));
@@ -74,10 +72,7 @@ class HomePageState extends State<HomePage> {
                 return ListView.builder(
                   controller: _scrollController,
                   itemCount: cards.length + 1,
-                  itemBuilder: (
-                    _,
-                    index,
-                  ) {
+                  itemBuilder: (_, index) {
                     if (index == cards.length) {
                       return _buildNavButtons();
                     }
@@ -102,12 +97,8 @@ class HomePageState extends State<HomePage> {
               '&pagesize=10&order=desc&sort=activity&intitle=' +
               _searchString);
       final ioc = HttpClient();
-      ioc.badCertificateCallback = (
-        X509Certificate cert,
-        String host,
-        int port,
-      ) =>
-          true;
+      ioc.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
       final http = IOClient(ioc);
       await http.get(url).then((response) {
         if (response.statusCode == 200) {
@@ -117,9 +108,7 @@ class HomePageState extends State<HomePage> {
             _scrollController.animateTo(
               0.0,
               curve: Curves.easeOut,
-              duration: const Duration(
-                milliseconds: 500,
-              ),
+              duration: const Duration(milliseconds: 500),
             );
           }
           _hasMore = decoded['has_more'];
@@ -150,9 +139,7 @@ class HomePageState extends State<HomePage> {
       title: Container(
         decoration: BoxDecoration(
           color: Colors.black38,
-          borderRadius: BorderRadius.circular(
-            30.0,
-          ),
+          borderRadius: BorderRadius.circular(30.0),
         ),
         child: TextField(
           autofocus: true,
@@ -224,10 +211,7 @@ class HomePageState extends State<HomePage> {
                   ),
                   child: GestureDetector(
                     child: Builder(
-                      builder: (
-                        _,
-                      ) =>
-                          const Icon(
+                      builder: (_) => const Icon(
                         Icons.info,
                       ),
                     ),
@@ -258,9 +242,7 @@ class HomePageState extends State<HomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.all(
-              8.0,
-            ),
+            padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               onPressed: _pageNumber > 1
                   ? () {
@@ -270,14 +252,10 @@ class HomePageState extends State<HomePage> {
                   : null,
               child: Row(
                 children: const [
-                  Icon(
-                    Icons.arrow_left,
-                  ),
+                  Icon(Icons.arrow_left),
                   Text(
                     'Previous',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w900,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.w900),
                   )
                 ],
               ),
@@ -298,13 +276,9 @@ class HomePageState extends State<HomePage> {
                 children: const [
                   Text(
                     'Next',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w900,
-                    ),
+                    style: TextStyle(fontWeight: FontWeight.w900),
                   ),
-                  Icon(
-                    Icons.arrow_right,
-                  ),
+                  Icon(Icons.arrow_right),
                 ],
               ),
             ),

@@ -23,7 +23,7 @@ class StackOverflowQuestionsState extends State<StackOverflowQuestionsApp> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(_) {
     return MaterialApp(
       title: title,
       theme: CustomTheme.currentTheme,

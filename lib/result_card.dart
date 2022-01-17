@@ -3,36 +3,20 @@ import 'package:stackoverflow_questions/result_item.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ResultCard extends Card {
-  ResultCard(
-    Map<String, dynamic> parsedJson,
-    double thumbnailWidth, {
-    Key? key,
-  }) : super(
-          key: key,
-          elevation: 10.0,
-          margin: const EdgeInsets.all(
-            15.0,
-          ),
-          child: getContent(
-            parsedJson,
-            thumbnailWidth,
-          ),
-        );
+  ResultCard(Map<String, dynamic> parsedJson, double thumbnailWidth, {Key? key})
+      : super(
+            key: key,
+            elevation: 10.0,
+            margin: const EdgeInsets.all(15.0),
+            child: getContent(parsedJson, thumbnailWidth));
 }
 
-Widget getContent(
-  Map<String, dynamic> parsedJson,
-  double thumbnailWidth,
-) {
+Widget getContent(Map<String, dynamic> parsedJson, double thumbnailWidth) {
   ResultItem item = ResultItem(parsedJson);
   return Card(
-    margin: const EdgeInsets.all(
-      15.0,
-    ),
+    margin: const EdgeInsets.all(15.0),
     child: Padding(
-      padding: const EdgeInsets.all(
-        20.0,
-      ),
+      padding: const EdgeInsets.all(20.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -43,56 +27,37 @@ Widget getContent(
               children: [
                 SelectableText(
                   item.title,
-                  style: const TextStyle(
-                    fontSize: 20.0,
-                  ),
+                  style: const TextStyle(fontSize: 20.0),
                 ),
-                const Divider(
-                  endIndent: 50,
-                  color: Colors.black54,
-                ),
+                const Divider(endIndent: 50, color: Colors.black54),
                 Text(
                   'Answered: ' + item.isAnswered,
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 Text(
                   'View Count: ' + item.viewCount,
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 Text(
                   'Answer Count: ' + item.answerCount,
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 Text(
                   'Score: ' + item.score,
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 Text(
                   'Last Activity: ' + item.lastActivityDate,
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 Text(
                   'Created: ' + item.creationDate,
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 Text(
                   'Tags: ' + item.tags,
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                const SizedBox(height: 10),
                 InkWell(
                   child: const Text(
                     'StackOverflow Page',
@@ -100,9 +65,7 @@ Widget getContent(
                       color: Colors.blue,
                     ),
                   ),
-                  onTap: () => launchInBrowser(
-                    item.link,
-                  ),
+                  onTap: () => launchInBrowser(item.link),
                 ),
               ],
             ),
@@ -114,11 +77,7 @@ Widget getContent(
                   item.profileImage,
                 ),
                 width: thumbnailWidth,
-                errorBuilder: (
-                  context,
-                  error,
-                  stackTrace,
-                ) {
+                errorBuilder: (context, error, stackTrace) {
                   return const Text(
                     'Profile image not found.',
                   );
