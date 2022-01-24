@@ -6,15 +6,15 @@ class CustomTheme {
   static ThemeData get lightTheme {
     return ThemeData(
       colorScheme: ColorScheme.fromSwatch().copyWith(
-        primary: Colors.brown,
-        secondary: Colors.grey,
+        primary: const Color(0xffd8dee9),
+        secondary: const Color(0xffe5e9f0),
         brightness: Brightness.light,
       ),
-      scaffoldBackgroundColor: Colors.white54,
+      scaffoldBackgroundColor: const Color(0xffd8dee9),
       appBarTheme: const AppBarTheme(
-        color: Colors.brown,
+        color: Color(0xff4c566a),
         iconTheme: IconThemeData(
-          color: Colors.grey,
+          color: Color(0xffd8dee9),
         ),
       ),
       textTheme: ThemeData.light().textTheme,
@@ -24,16 +24,16 @@ class CustomTheme {
   static ThemeData get darkTheme {
     return ThemeData(
       colorScheme: ColorScheme.fromSwatch().copyWith(
-        primary: Colors.brown,
+        primary: const Color(0xff4c566a),
         secondary: Colors.grey,
         brightness: Brightness.dark,
         background: Colors.black12,
       ),
-      scaffoldBackgroundColor: Colors.black38,
+      scaffoldBackgroundColor: const Color(0xff4c566a),
       appBarTheme: const AppBarTheme(
-        color: Colors.brown,
+        color: Color(0xff2e3440),
         iconTheme: IconThemeData(
-          color: Colors.white70,
+          color: Color(0xffd8dee9),
         ),
       ),
       textTheme: ThemeData.dark().textTheme,

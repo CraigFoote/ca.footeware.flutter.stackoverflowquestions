@@ -125,7 +125,7 @@ class HomePageState extends State<HomePage> {
     return AppBar(
       leading: Builder(
         builder: (
-          _,
+          BuildContext context,
         ) {
           return IconButton(
             icon: const Icon(Icons.menu),
@@ -153,11 +153,13 @@ class HomePageState extends State<HomePage> {
             prefixIcon: const Icon(Icons.search),
             suffixIcon: IconButton(
               icon: const Icon(Icons.clear),
+              color: Colors.white54,
               onPressed: () => setState(
                 () => _searchController.clear(),
               ),
             ),
             hintText: 'Search...',
+            hintStyle: const TextStyle(color: Colors.white54),
             border: InputBorder.none,
           ),
           onSubmitted: (value) {
