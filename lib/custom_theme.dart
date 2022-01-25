@@ -24,7 +24,7 @@ class CustomTheme {
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          primary: const Color(0xffd8dee9),
+          primary: const Color(0xff4c566a),
         ),
       ),
     );

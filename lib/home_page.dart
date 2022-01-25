@@ -21,7 +21,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  bool _isDarkTheme = false;
+  bool _isDarkTheme = CustomTheme.currentTheme == CustomTheme.darkTheme;
   final _searchController = TextEditingController();
   final _scrollController = ScrollController();
   num _pageNumber = 1;
@@ -218,16 +218,7 @@ class HomePageState extends State<HomePage> {
               icon: const Icon(
                 Icons.info,
               ),
-              label: Text(
-                'Info',
-                style: _isDarkTheme
-                    ? const TextStyle(
-                        color: Color(0xffd8dee9),
-                      )
-                    : const TextStyle(
-                        color: Color(0xff4c566a),
-                      ),
-              ),
+              label: const Text('Info'),
             ),
           ],
         ),
