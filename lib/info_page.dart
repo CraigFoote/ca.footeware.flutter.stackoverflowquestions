@@ -29,6 +29,7 @@ class InfoPage extends StatelessWidget {
                   10,
                 ),
                 child: Linkify(
+                  style: const TextStyle(fontSize: 16),
                   text: 'Another fine mess by http://Footeware.ca',
                   onOpen: _openUrl,
                 ),
@@ -40,7 +41,10 @@ class InfoPage extends StatelessWidget {
 
   void _openUrl(link) async {
     if (await canLaunch(link.url)) {
-      await launch(link.url);
+      await launch(
+        link.url,
+        forceWebView: false,
+      );
     } else {
       throw 'Could not launch $link';
     }

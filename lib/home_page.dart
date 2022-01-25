@@ -124,9 +124,7 @@ class HomePageState extends State<HomePage> {
   PreferredSizeWidget _buildAppbar() {
     return AppBar(
       leading: Builder(
-        builder: (
-          BuildContext context,
-        ) {
+        builder: (BuildContext context) {
           return IconButton(
             icon: const Icon(Icons.menu),
             onPressed: () {
@@ -154,9 +152,7 @@ class HomePageState extends State<HomePage> {
             suffixIcon: IconButton(
               icon: const Icon(Icons.clear),
               color: Colors.white54,
-              onPressed: () => setState(
-                () => _searchController.clear(),
-              ),
+              onPressed: () => setState(() => _searchController.clear()),
             ),
             hintText: 'Search...',
             hintStyle: const TextStyle(color: Colors.white54),
@@ -178,7 +174,9 @@ class HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(
           10.0,
         ),
-        child: ListView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -205,32 +203,31 @@ class HomePageState extends State<HomePage> {
                 ),
               ],
             ),
-            Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(
-                    10.0,
-                  ),
-                  child: GestureDetector(
-                    child: Builder(
-                      builder: (_) => const Icon(
-                        Icons.info,
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return const InfoPage(
-                              title: 'Info',
-                            );
-                          },
-                        ),
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const InfoPage(
+                        title: 'Info',
                       );
                     },
                   ),
-                ),
-              ],
+                );
+              },
+              icon: const Icon(
+                Icons.info,
+              ),
+              label: Text(
+                'Info',
+                style: _isDarkTheme
+                    ? const TextStyle(
+                        color: Color(0xffd8dee9),
+                      )
+                    : const TextStyle(
+                        color: Color(0xff4c566a),
+                      ),
+              ),
             ),
           ],
         ),

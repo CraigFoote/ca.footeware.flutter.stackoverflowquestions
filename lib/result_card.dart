@@ -5,10 +5,11 @@ import 'package:url_launcher/url_launcher.dart';
 class ResultCard extends Card {
   ResultCard(Map<String, dynamic> parsedJson, double thumbnailWidth, {Key? key})
       : super(
-            key: key,
-            elevation: 10.0,
-            margin: const EdgeInsets.all(15.0),
-            child: getContent(parsedJson, thumbnailWidth));
+          key: key,
+          elevation: 10.0,
+          margin: const EdgeInsets.all(15.0),
+          child: getContent(parsedJson, thumbnailWidth),
+        );
 }
 
 Widget getContent(Map<String, dynamic> parsedJson, double thumbnailWidth) {
@@ -29,7 +30,6 @@ Widget getContent(Map<String, dynamic> parsedJson, double thumbnailWidth) {
                   item.title,
                   style: const TextStyle(fontSize: 20.0),
                 ),
-                const Divider(endIndent: 50, color: Colors.black54),
                 Text(
                   'Answered: ' + item.isAnswered,
                 ),
